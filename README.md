@@ -1,4 +1,13 @@
+# Custom immich build
+This is a custom build of [immich](https://github.com/immich-app/immich).
+
+# Main Changes
+- When auto registering a new user via OAuth the storage label is set to the OAuth tokens uid value
+
 <p align="center"> 
+  <br/>  
+  <br/>  
+  <br/>  
   <br/>  
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-green.svg?color=3F51B5&style=for-the-badge&label=License&logoColor=000000&labelColor=ececec" alt="License: MIT"></a>
   <a href="https://discord.gg/D8JsnBEuKb">
@@ -17,9 +26,6 @@
 <img src="design/immich-screenshots.png" title="Main Screenshot">
 </a>
 <br/>
-<p align="center">
-  <a href="README_zh_CN.md">中文</a>
-</p>
 
 ## Disclaimer
 
