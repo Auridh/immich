@@ -128,8 +128,8 @@ class Album {
     final Album a = Album(
       remoteId: dto.id,
       name: dto.albumName,
-      createdAt: DateTime.parse(dto.createdAt),
-      modifiedAt: DateTime.parse(dto.updatedAt),
+      createdAt: dto.createdAt,
+      modifiedAt: dto.updatedAt,
       shared: dto.shared,
     );
     a.owner.value = await db.users.getById(dto.ownerId);
@@ -166,23 +166,10 @@ extension AssetsHelper on IsarCollection<Album> {
   }
 }
 
-extension AssetPathEntityHelper on AssetPathEntity {
-  Future<List<Asset>> getAssets({
-    int start = 0,
-    int end = 0x7fffffffffffffff,
-    Set<String>? excludedAssets,
-  }) async {
-    final assetEntities = await getAssetListRange(start: start, end: end);
-    if (excludedAssets != null) {
-      return assetEntities
-          .where((e) => !excludedAssets.contains(e.id))
-          .map(Asset.local)
-          .toList();
-    }
-    return assetEntities.map(Asset.local).toList();
-  }
-}
-
 extension AlbumResponseDtoHelper on AlbumResponseDto {
   List<Asset> getAssets() => assets.map(Asset.remote).toList();
+}
+
+extension AssetPathEntityHelper on AssetPathEntity {
+  String get eTagKeyAssetCount => "device-album-$id-asset-count";
 }
