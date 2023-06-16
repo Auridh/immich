@@ -1,23 +1,11 @@
-<script lang="ts" context="module">
-	type OnShowContextMenu = {
-		showalbumcontextmenu: OnShowContextMenuDetail;
-	};
-
-	type OnClick = {
-		click: OnClickDetail;
-	};
-
-	export type OnShowContextMenuDetail = { x: number; y: number };
-	export type OnClickDetail = AlbumResponseDto;
-</script>
-
 <script lang="ts">
+	import noThumbnailUrl from '$lib/assets/no-thumbnail.png';
+	import { locale } from '$lib/stores/preferences.store';
 	import { AlbumResponseDto, api, ThumbnailFormat, UserResponseDto } from '@api';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import DotsVertical from 'svelte-material-icons/DotsVertical.svelte';
-	import CircleIconButton from '../elements/buttons/circle-icon-button.svelte';
-	import noThumbnailUrl from '$lib/assets/no-thumbnail.png';
-	import { locale } from '$lib/stores/preferences.store';
+	import IconButton from '../elements/buttons/icon-button.svelte';
+	import type { OnClick, OnShowContextMenu } from './album-card';
 
 	export let album: AlbumResponseDto;
 	export let isSharingView = false;
@@ -37,7 +25,7 @@
 
 		const { data } = await api.assetApi.getAssetThumbnail(
 			{
-				assetId: thubmnailId,
+				id: thubmnailId,
 				format: ThumbnailFormat.Jpeg
 			},
 			{
@@ -82,7 +70,9 @@
 			on:click|stopPropagation|preventDefault={showAlbumContextMenu}
 			data-testid="context-button-parent"
 		>
-			<CircleIconButton logo={DotsVertical} size={'20'} />
+			<IconButton color="overlay-primary">
+				<DotsVertical size="20" />
+			</IconButton>
 		</div>
 	{/if}
 
@@ -115,7 +105,10 @@
 				{album.assetCount.toLocaleString($locale)}
 				{album.assetCount == 1 ? `item` : `items`}
 			</p>
-			<p>·</p>
+
+			{#if isSharingView || album.shared}
+				<p>·</p>
+			{/if}
 
 			{#if isSharingView}
 				{#await getAlbumOwnerInfo() then albumOwner}
