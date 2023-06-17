@@ -54,4 +54,7 @@ export class CreateUserOAuthDto {
   firstName?: string;
 
   lastName?: string;
+
+  @IsOptional()
+  storageLabel?: string | null;
 }
