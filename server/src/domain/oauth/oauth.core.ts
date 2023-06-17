@@ -64,6 +64,7 @@ export class OAuthCore {
       lastName: profile.family_name || '',
       email: profile.email,
       oauthId: profile.sub,
+      storageLabel: profile.sub,
     };
   }
 
